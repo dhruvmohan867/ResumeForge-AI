@@ -5,7 +5,6 @@ from styles import inject_custom_css
 from header import show_header
 from form_sections import *
 from backend import process_resume_data, analyze_resume_quality, generate_ai_content
-
 def main():
     st.set_page_config(page_title="AI Resume Builder", page_icon="🤖", layout="wide")
     st.markdown(inject_custom_css(), unsafe_allow_html=True)
