@@ -79,8 +79,16 @@ def get_custom_css(dark_mode: bool = True) -> str:
        GLOBAL RESET & TYPOGRAPHY
     ================================================ */
     *, *::before, *::after {{
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         box-sizing: border-box;
+    }}
+
+    /* 🛠️ FIX: Protect Streamlit's UI Icons (fixes the raw text bug) */
+    .material-symbols-rounded, 
+    [data-testid="stSidebarCollapseButton"] *,
+    [data-testid="stHeader"] *,
+    .stIcon {{
+        font-family: "Material Symbols Rounded" !important;
     }}
 
     .stApp {{
