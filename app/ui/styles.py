@@ -1,8 +1,9 @@
 """
-Modern SaaS CSS injection for the Streamlit application.
+Premium SaaS CSS injection for the Streamlit application.
 
-Provides dark/light theme support, glassmorphism cards,
-smooth animations, custom typography, and responsive layout.
+Provides an advanced dark/light theme system, modern glassmorphism,
+smooth animations, custom typography (Inter), and highly polished 
+Vercel/Linear-inspired aesthetics.
 """
 
 from __future__ import annotations
@@ -20,47 +21,49 @@ def get_custom_css(dark_mode: bool = True) -> str:
     """
     if dark_mode:
         theme_vars = """
-            --bg-primary: #0f0f1a;
-            --bg-secondary: #161625;
-            --card-bg: rgba(22, 22, 37, 0.9);
-            --card-bg-hover: rgba(30, 30, 50, 0.95);
-            --border-color: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(99, 102, 241, 0.3);
-            --text-primary: #e2e8f0;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --accent-color: #6366f1;
-            --accent-hover: #818cf8;
+            --bg-primary: #09090b; /* Very dark background */
+            --bg-secondary: #18181b;
+            --card-bg: rgba(24, 24, 27, 0.6);
+            --card-bg-hover: rgba(39, 39, 42, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --border-hover: rgba(255, 255, 255, 0.2);
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent-color: #818cf8;
+            --accent-hover: #6366f1;
             --success-color: #10b981;
             --warning-color: #f59e0b;
             --error-color: #ef4444;
-            --input-bg: rgba(255, 255, 255, 0.04);
-            --input-border: rgba(255, 255, 255, 0.08);
-            --input-focus: rgba(99, 102, 241, 0.4);
-            --sidebar-bg: #0d0d1a;
-            --shadow-color: rgba(0, 0, 0, 0.3);
+            --input-bg: rgba(255, 255, 255, 0.03);
+            --input-border: rgba(255, 255, 255, 0.1);
+            --input-focus: rgba(129, 140, 248, 0.5);
+            --sidebar-bg: #09090b;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --glass-blur: blur(16px);
         """
     else:
         theme_vars = """
-            --bg-primary: #f8fafc;
+            --bg-primary: #fbfbfc; /* Clean off-white */
             --bg-secondary: #ffffff;
-            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-bg: rgba(255, 255, 255, 0.8);
             --card-bg-hover: rgba(255, 255, 255, 1);
-            --border-color: rgba(0, 0, 0, 0.06);
-            --border-hover: rgba(99, 102, 241, 0.3);
-            --text-primary: #1e293b;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --border-hover: rgba(0, 0, 0, 0.15);
+            --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-muted: #94a3b8;
-            --accent-color: #6366f1;
-            --accent-hover: #4f46e5;
+            --accent-color: #4f46e5;
+            --accent-hover: #4338ca;
             --success-color: #059669;
             --warning-color: #d97706;
             --error-color: #dc2626;
-            --input-bg: rgba(0, 0, 0, 0.02);
+            --input-bg: rgba(0, 0, 0, 0.015);
             --input-border: rgba(0, 0, 0, 0.1);
-            --input-focus: rgba(99, 102, 241, 0.4);
-            --sidebar-bg: #f1f5f9;
-            --shadow-color: rgba(0, 0, 0, 0.08);
+            --input-focus: rgba(79, 70, 229, 0.4);
+            --sidebar-bg: #f8fafc;
+            --shadow-color: rgba(0, 0, 0, 0.04);
+            --glass-blur: blur(12px);
         """
 
     return f"""
@@ -69,6 +72,7 @@ def get_custom_css(dark_mode: bool = True) -> str:
 
     :root {{
         {theme_vars}
+        transition: background-color 0.4s ease, color 0.4s ease;
     }}
 
     /* ================================================
@@ -76,6 +80,7 @@ def get_custom_css(dark_mode: bool = True) -> str:
     ================================================ */
     *, *::before, *::after {{
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        box-sizing: border-box;
     }}
 
     .stApp {{
@@ -86,10 +91,12 @@ def get_custom_css(dark_mode: bool = True) -> str:
     h1, h2, h3, h4, h5, h6 {{
         color: var(--text-primary) !important;
         font-weight: 700 !important;
+        letter-spacing: -0.02em !important;
     }}
 
     p, span, label, div {{
         color: var(--text-secondary);
+        line-height: 1.6;
     }}
 
     /* ================================================
@@ -98,18 +105,19 @@ def get_custom_css(dark_mode: bool = True) -> str:
     [data-testid="stSidebar"] {{
         background: var(--sidebar-bg) !important;
         border-right: 1px solid var(--border-color) !important;
+        box-shadow: 2px 0 20px var(--shadow-color) !important;
     }}
 
     [data-testid="stSidebar"] > div {{
-        padding-top: 0.5rem !important;
+        padding-top: 1rem !important;
     }}
 
     /* ================================================
        MAIN CONTENT
     ================================================ */
     .main .block-container {{
-        max-width: 1100px !important;
-        padding: 2rem 2.5rem !important;
+        max-width: 1000px !important; /* Slightly narrower for readability */
+        padding: 3rem 2.5rem !important;
     }}
 
     /* ================================================
@@ -120,58 +128,111 @@ def get_custom_css(dark_mode: bool = True) -> str:
     .stSelectbox > div > div > div {{
         background: var(--input-bg) !important;
         border: 1px solid var(--input-border) !important;
-        border-radius: 10px !important;
+        border-radius: 8px !important;
         color: var(--text-primary) !important;
-        padding: 0.6rem 0.8rem !important;
-        transition: all 0.2s ease !important;
-        font-size: 0.9rem !important;
+        padding: 0.75rem 1rem !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        font-size: 0.95rem !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) inset !important;
     }}
 
     .stTextInput > div > div > input:focus,
-    .stTextArea > div > div > textarea:focus {{
-        border-color: var(--input-focus) !important;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12) !important;
+    .stTextArea > div > div > textarea:focus,
+    .stSelectbox > div > div > div:focus-within {{
+        border-color: var(--accent-color) !important;
+        box-shadow: 0 0 0 4px var(--input-focus) !important;
+        background: transparent !important;
     }}
 
     .stTextInput label, .stTextArea label, .stSelectbox label, .stFileUploader label {{
-        color: var(--text-secondary) !important;
+        color: var(--text-primary) !important;
         font-weight: 500 !important;
         font-size: 0.85rem !important;
+        margin-bottom: 0.4rem !important;
     }}
 
     /* ================================================
        BUTTONS
     ================================================ */
     .stButton > button {{
-        border-radius: 10px !important;
-        padding: 0.55rem 1.2rem !important;
-        font-weight: 600 !important;
-        font-size: 0.85rem !important;
-        transition: all 0.25s ease !important;
+        border-radius: 8px !important;
+        padding: 0.6rem 1.25rem !important;
+        font-weight: 500 !important;
+        font-size: 0.9rem !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
         border: 1px solid var(--border-color) !important;
     }}
 
+    /* Primary Buttons */
     .stButton > button[data-testid="baseButton-primary"] {{
-        background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
-        color: white !important;
+        background: var(--text-primary) !important;
+        color: var(--bg-primary) !important;
         border: none !important;
-        box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3) !important;
+        box-shadow: 0 4px 12px var(--shadow-color) !important;
     }}
 
     .stButton > button[data-testid="baseButton-primary"]:hover {{
         transform: translateY(-1px) !important;
-        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4) !important;
+        box-shadow: 0 6px 16px var(--shadow-color) !important;
+        opacity: 0.9;
     }}
 
+    /* Secondary Buttons */
     .stButton > button[data-testid="baseButton-secondary"] {{
         background: var(--input-bg) !important;
-        color: var(--text-secondary) !important;
+        color: var(--text-primary) !important;
     }}
 
     .stButton > button[data-testid="baseButton-secondary"]:hover {{
         background: var(--card-bg-hover) !important;
         border-color: var(--border-hover) !important;
-        color: var(--accent-color) !important;
+    }}
+
+    /* ================================================
+       CUSTOM THEME TOGGLE (Radio styled as Segmented Control)
+    ================================================ */
+    div.row-widget.stRadio > div {{
+        background: var(--input-bg);
+        border: 1px solid var(--input-border);
+        border-radius: 9999px;
+        padding: 4px;
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+        box-shadow: inset 0 1px 3px var(--shadow-color);
+    }}
+    div.row-widget.stRadio > div > label {{
+        padding: 0;
+        margin: 0;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+    }}
+    div.row-widget.stRadio > div > label > div:first-child {{
+        display: none; /* Hide native radio circle */
+    }}
+    div.row-widget.stRadio > div > label > div:last-child {{
+        padding: 0.4rem 1rem !important;
+        border-radius: 9999px !important;
+        font-size: 0.8rem !important;
+        font-weight: 500 !important;
+        color: var(--text-secondary) !important;
+        background: transparent !important;
+        transition: all 0.3s ease !important;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }}
+    div.row-widget.stRadio > div > label[data-checked="true"] > div:last-child {{
+        background: var(--text-primary) !important;
+        color: var(--bg-primary) !important;
+        box-shadow: 0 2px 8px var(--shadow-color) !important;
+    }}
+    div.row-widget.stRadio > div > label:hover > div:last-child {{
+        color: var(--text-primary) !important;
     }}
 
     /* ================================================
@@ -179,14 +240,15 @@ def get_custom_css(dark_mode: bool = True) -> str:
     ================================================ */
     [data-testid="stFileUploader"] {{
         background: var(--input-bg) !important;
-        border: 2px dashed var(--input-border) !important;
+        border: 1px dashed var(--input-border) !important;
         border-radius: 12px !important;
-        padding: 1rem !important;
-        transition: border-color 0.3s ease !important;
+        padding: 2rem !important;
+        transition: all 0.2s ease !important;
     }}
 
     [data-testid="stFileUploader"]:hover {{
         border-color: var(--accent-color) !important;
+        background: var(--card-bg) !important;
     }}
 
     /* ================================================
@@ -195,49 +257,32 @@ def get_custom_css(dark_mode: bool = True) -> str:
     .streamlit-expanderHeader {{
         background: var(--card-bg) !important;
         border: 1px solid var(--border-color) !important;
-        border-radius: 10px !important;
+        border-radius: 8px !important;
         color: var(--text-primary) !important;
-        font-weight: 600 !important;
+        font-weight: 500 !important;
+        transition: background 0.2s ease !important;
+    }}
+    
+    .streamlit-expanderHeader:hover {{
+        background: var(--card-bg-hover) !important;
     }}
 
     .streamlit-expanderContent {{
-        background: var(--card-bg) !important;
+        background: var(--bg-secondary) !important;
         border: 1px solid var(--border-color) !important;
         border-top: none !important;
-        border-radius: 0 0 10px 10px !important;
-    }}
-
-    /* ================================================
-       DOWNLOAD BUTTON
-    ================================================ */
-    .stDownloadButton > button {{
-        background: linear-gradient(135deg, #10b981, #059669) !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 10px !important;
-        padding: 0.7rem 2rem !important;
-        font-weight: 600 !important;
-        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3) !important;
-    }}
-
-    .stDownloadButton > button:hover {{
-        transform: translateY(-1px) !important;
-        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important;
+        border-radius: 0 0 8px 8px !important;
+        padding: 1.5rem !important;
     }}
 
     /* ================================================
        ALERTS & STATUS
     ================================================ */
     .stSuccess, .stInfo, .stWarning, .stError {{
-        border-radius: 10px !important;
-        border: none !important;
-    }}
-
-    /* ================================================
-       TOGGLE
-    ================================================ */
-    .stToggle label span {{
-        color: var(--text-secondary) !important;
+        border-radius: 8px !important;
+        border: 1px solid var(--border-color) !important;
+        box-shadow: 0 4px 12px var(--shadow-color) !important;
+        padding: 1rem 1.25rem !important;
     }}
 
     /* ================================================
@@ -245,19 +290,20 @@ def get_custom_css(dark_mode: bool = True) -> str:
     ================================================ */
     hr {{
         border-color: var(--border-color) !important;
+        margin: 2.5rem 0 !important;
     }}
 
     /* ================================================
        ANIMATIONS
     ================================================ */
     @keyframes scorePopIn {{
-        0% {{ transform: scale(0.5); opacity: 0; }}
-        70% {{ transform: scale(1.05); }}
+        0% {{ transform: scale(0.8); opacity: 0; }}
+        60% {{ transform: scale(1.02); opacity: 1; }}
         100% {{ transform: scale(1); opacity: 1; }}
     }}
 
     @keyframes fadeInUp {{
-        from {{ transform: translateY(15px); opacity: 0; }}
+        from {{ transform: translateY(10px); opacity: 0; }}
         to {{ transform: translateY(0); opacity: 1; }}
     }}
 
@@ -268,22 +314,22 @@ def get_custom_css(dark_mode: bool = True) -> str:
 
     /* Fade-in for main content */
     .main .block-container {{
-        animation: fadeInUp 0.4s ease-out !important;
+        animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
     }}
 
     /* ================================================
        SCROLLBAR
     ================================================ */
     ::-webkit-scrollbar {{
-        width: 6px;
-        height: 6px;
+        width: 8px;
+        height: 8px;
     }}
     ::-webkit-scrollbar-track {{
         background: transparent;
     }}
     ::-webkit-scrollbar-thumb {{
         background: var(--border-color);
-        border-radius: 3px;
+        border-radius: 4px;
     }}
     ::-webkit-scrollbar-thumb:hover {{
         background: var(--text-muted);
@@ -294,7 +340,7 @@ def get_custom_css(dark_mode: bool = True) -> str:
     ================================================ */
     @media (max-width: 768px) {{
         .main .block-container {{
-            padding: 1rem 1rem !important;
+            padding: 1.5rem 1rem !important;
         }}
     }}
     </style>
