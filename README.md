@@ -22,23 +22,16 @@ Designed with a stunning **Vercel/Linear-inspired aesthetic**, it features a rob
 
 *Note: Create a `/screenshots` folder in the root directory and name your screenshots exactly as below.*
 
-### Dashboard / Profile Tracker
-![Dashboard](screenshots/dashboard.png)
+
 
 ### Resume Builder
 ![Resume Builder](screenshots/resume-builder.png)
 
-### ATS Analysis
-![ATS Analysis](screenshots/ats-analysis.png)
-
-### AI Content Enhancement
-![AI Enhance](screenshots/ai-enhance.png)
 
 ### Export PDF
 ![Export PDF](screenshots/export-pdf.png)
 
-### Light Mode UI
-![Light Mode](screenshots/light-mode.png)
+
 
 ---
 
@@ -182,5 +175,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## 👨‍💻 Author
 
 Built with ❤️ by **Dhruv Mohan Shukla**
-- GitHub: [your-github-link]
-- LinkedIn: [your-linkedin-link]
+- GitHub: https://github.com/dhruvmohan867
+- LinkedIn: https://www.linkedin.com/in/dhruvmohanshukla/
