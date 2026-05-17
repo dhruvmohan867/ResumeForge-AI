@@ -22,6 +22,8 @@ Designed with a stunning **Vercel/Linear-inspired aesthetic**, it features a rob
 
 *Note: Create a `/screenshots` folder in the root directory and name your screenshots exactly as below.*
 
+### Dashboard / Profile Tracker
+![Dashboard](screenshots/dashboard.png)
 
 ### Resume Builder
 ![Resume Builder](screenshots/resume-builder.png)
@@ -174,5 +176,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## 👨‍💻 Author
 
 Built with ❤️ by **Dhruv Mohan Shukla**
-- GitHub: [your-github-link]
-- LinkedIn: [your-linkedin-link]
+- GitHub: https://github.com/dhruvmohan867
+- LinkedIn: https://www.linkedin.com/in/dhruvmohanshukla/
