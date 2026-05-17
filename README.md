@@ -170,6 +170,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 👨‍💻 Author
 
-Built with ❤️ by **Dhruv Mohan Shukla**
+Built with  by **Dhruv Mohan Shukla**
 - GitHub: https://github.com/dhruvmohan867
 - LinkedIn: https://www.linkedin.com/in/dhruvmohanshukla/
