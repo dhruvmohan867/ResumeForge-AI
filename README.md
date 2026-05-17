@@ -20,10 +20,6 @@ Designed with a stunning **Vercel/Linear-inspired aesthetic**, it features a rob
 
 ## 📸 Screenshots
 
-*Note: Create a `/screenshots` folder in the root directory and name your screenshots exactly as below.*
-
-
-
 ### Resume Builder
 ![Resume Builder](screenshots/resume-builder.png)
 
