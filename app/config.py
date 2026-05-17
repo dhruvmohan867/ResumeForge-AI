@@ -36,7 +36,7 @@ openai_client = OpenAI(
 # ---------------------------------------------------------------------------
 # AI Model Settings
 # ---------------------------------------------------------------------------
-AI_MODEL: str = "llama3-70b-8192"
+AI_MODEL: str = "llama-3.3-70b-versatile"
 AI_TEMPERATURE_LOW: float = 0.1          # Structured extraction / parsing
 AI_TEMPERATURE_MEDIUM: float = 0.5       # Enhancement / rewriting
 AI_TEMPERATURE_HIGH: float = 0.7         # Creative suggestions
