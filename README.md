@@ -22,8 +22,7 @@ Designed with a stunning **Vercel/Linear-inspired aesthetic**, it features a rob
 
 *Note: Create a `/screenshots` folder in the root directory and name your screenshots exactly as below.*
 
-### Dashboard / Profile Tracker
-![Dashboard](screenshots/dashboard.png)
+
 
 ### Resume Builder
 ![Resume Builder](screenshots/resume-builder.png)
