@@ -28,12 +28,15 @@ if not OPENAI_API_KEY:
 # ---------------------------------------------------------------------------
 # OpenAI Client (modern SDK — singleton)
 # ---------------------------------------------------------------------------
-openai_client = OpenAI(api_key=OPENAI_API_KEY)
+openai_client = OpenAI(
+    api_key=OPENAI_API_KEY,
+    base_url="https://api.groq.com/openai/v1"
+)
 
 # ---------------------------------------------------------------------------
 # AI Model Settings
 # ---------------------------------------------------------------------------
-AI_MODEL: str = "gpt-4o-mini"
+AI_MODEL: str = "llama3-70b-8192"
 AI_TEMPERATURE_LOW: float = 0.1          # Structured extraction / parsing
 AI_TEMPERATURE_MEDIUM: float = 0.5       # Enhancement / rewriting
 AI_TEMPERATURE_HIGH: float = 0.7         # Creative suggestions

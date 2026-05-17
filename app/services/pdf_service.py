@@ -85,7 +85,7 @@ class ResumePDF(FPDF):
         self.set_x(x + indent)
         self.set_font("Helvetica", "", 9)
         self._set_color("text")
-        bullet_char = "\u2022"
+        bullet_char = "-"
         self.multi_cell(PDF_CONTENT_WIDTH - indent - 5, 5, f"{bullet_char}  {text.strip()}")
         self.ln(1)
 
@@ -183,7 +183,7 @@ def _render_tech_minimalist(pdf: ResumePDF, r: ResumeData) -> None:
             pdf._set_color("secondary")
             company_line = exp.company
             if exp.location:
-                company_line += f"  —  {exp.location}"
+                company_line += f"  -  {exp.location}"
             pdf.cell(0, 5, company_line, ln=True)
 
             if exp.description:
@@ -223,7 +223,7 @@ def _render_tech_minimalist(pdf: ResumePDF, r: ResumeData) -> None:
         pdf.section_title("Skills")
         pdf.set_font("Helvetica", "", 10)
         pdf._set_color("text")
-        pdf.safe_multi_cell(PDF_CONTENT_WIDTH, 5, "  •  ".join(r.skills))
+        pdf.safe_multi_cell(PDF_CONTENT_WIDTH, 5, "  |  ".join(r.skills))
         pdf.ln(2)
 
     # Projects
@@ -258,7 +258,7 @@ def _render_tech_minimalist(pdf: ResumePDF, r: ResumeData) -> None:
             pdf._set_color("text")
             cert_line = cert.title
             if cert.issuer:
-                cert_line += f" — {cert.issuer}"
+                cert_line += f" - {cert.issuer}"
             if cert.year:
                 cert_line += f" ({cert.year})"
             pdf.cell(0, 6, cert_line, ln=True)
@@ -330,7 +330,7 @@ def _render_corporate_executive(pdf: ResumePDF, r: ResumeData) -> None:
         for edu in r.education:
             pdf.set_font("Helvetica", "B", 10)
             pdf._set_color("text")
-            pdf.cell(0, 6, f"{edu.degree} — {edu.institution}", ln=False)
+            pdf.cell(0, 6, f"{edu.degree} - {edu.institution}", ln=False)
             if edu.year:
                 pdf.set_font("Helvetica", "", 9)
                 pdf._set_color("secondary")
@@ -344,7 +344,7 @@ def _render_corporate_executive(pdf: ResumePDF, r: ResumeData) -> None:
         pdf.section_title("Core Competencies")
         pdf.set_font("Helvetica", "", 10)
         pdf._set_color("text")
-        pdf.safe_multi_cell(PDF_CONTENT_WIDTH, 5, "  •  ".join(r.skills))
+        pdf.safe_multi_cell(PDF_CONTENT_WIDTH, 5, "  |  ".join(r.skills))
         pdf.ln(2)
 
     # Projects
@@ -367,7 +367,7 @@ def _render_corporate_executive(pdf: ResumePDF, r: ResumeData) -> None:
             pdf._set_color("text")
             cert_line = cert.title
             if cert.issuer:
-                cert_line += f" — {cert.issuer}"
+                cert_line += f" - {cert.issuer}"
             if cert.year:
                 cert_line += f" ({cert.year})"
             pdf.cell(0, 6, cert_line, ln=True)
@@ -419,7 +419,7 @@ def _render_modern_developer(pdf: ResumePDF, r: ResumeData) -> None:
         pdf.section_title("Tech Stack")
         pdf.set_font("Helvetica", "", 10)
         pdf._set_color("text")
-        pdf.safe_multi_cell(PDF_CONTENT_WIDTH, 5, "  •  ".join(r.skills))
+        pdf.safe_multi_cell(PDF_CONTENT_WIDTH, 5, "  |  ".join(r.skills))
         pdf.ln(2)
 
     # Experience
@@ -492,7 +492,7 @@ def _render_modern_developer(pdf: ResumePDF, r: ResumeData) -> None:
             pdf._set_color("text")
             cert_line = cert.title
             if cert.issuer:
-                cert_line += f" — {cert.issuer}"
+                cert_line += f" - {cert.issuer}"
             if cert.year:
                 cert_line += f" ({cert.year})"
             pdf.cell(0, 6, cert_line, ln=True)
