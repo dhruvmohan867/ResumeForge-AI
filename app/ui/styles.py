@@ -120,11 +120,44 @@ def get_custom_css(dark_mode: bool = True) -> str:
         padding-top: 1rem !important;
     }}
 
+    /* Elegant Sidebar Buttons Styling */
+    [data-testid="stSidebar"] .stButton > button[data-testid="baseButton-primary"] {{
+        background: linear-gradient(90deg, rgba(99, 102, 241, 0.12), rgba(139, 92, 246, 0.04)) !important;
+        color: var(--accent-color) !important;
+        border-left: 4px solid var(--accent-color) !important;
+        border-top: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        border-radius: 0 8px 8px 0 !important;
+        text-align: left !important;
+        justify-content: flex-start !important;
+        padding: 0.6rem 1rem !important;
+        font-weight: 600 !important;
+        box-shadow: none !important;
+        transition: all 0.2s ease !important;
+    }}
+
+    [data-testid="stSidebar"] .stButton > button[data-testid="baseButton-secondary"] {{
+        background: transparent !important;
+        border: none !important;
+        color: var(--text-secondary) !important;
+        text-align: left !important;
+        justify-content: flex-start !important;
+        padding: 0.6rem 1rem !important;
+        transition: all 0.2s ease !important;
+    }}
+
+    [data-testid="stSidebar"] .stButton > button[data-testid="baseButton-secondary"]:hover {{
+        background: var(--card-bg-hover) !important;
+        color: var(--text-primary) !important;
+        transform: translateX(2px) !important;
+    }}
+
     /* ================================================
        MAIN CONTENT
     ================================================ */
     .main .block-container {{
-        max-width: 1000px !important; /* Slightly narrower for readability */
+        max-width: 1400px !important; /* Wider layout for side-by-side resume builder + live preview */
         padding: 3rem 2.5rem !important;
     }}
 
@@ -132,8 +165,7 @@ def get_custom_css(dark_mode: bool = True) -> str:
        INPUT FIELDS
     ================================================ */
     .stTextInput > div > div > input,
-    .stTextArea > div > div > textarea,
-    .stSelectbox > div > div > div {{
+    .stTextArea > div > div > textarea {{
         background: var(--input-bg) !important;
         border: 1px solid var(--input-border) !important;
         border-radius: 8px !important;
@@ -144,12 +176,26 @@ def get_custom_css(dark_mode: bool = True) -> str:
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) inset !important;
     }}
 
+    .stSelectbox > div > div > div {{
+        background: var(--input-bg) !important;
+        border: 1px solid var(--input-border) !important;
+        border-radius: 8px !important;
+        color: var(--text-primary) !important;
+        padding: 0 1rem !important; /* Horizontal padding only to prevent vertical text clipping */
+        min-height: 42px !important;
+        display: flex !important;
+        align-items: center !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        font-size: 0.95rem !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) inset !important;
+    }}
+
     .stTextInput > div > div > input:focus,
     .stTextArea > div > div > textarea:focus,
     .stSelectbox > div > div > div:focus-within {{
         border-color: var(--accent-color) !important;
-        box-shadow: 0 0 0 4px var(--input-focus) !important;
-        background: transparent !important;
+        box-shadow: 0 0 0 4px var(--input-focus), 0 4px 20px rgba(99, 102, 241, 0.15) !important;
+        background: rgba(99, 102, 241, 0.01) !important;
     }}
 
     .stTextInput label, .stTextArea label, .stSelectbox label, .stFileUploader label {{

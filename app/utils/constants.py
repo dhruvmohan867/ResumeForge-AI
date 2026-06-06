@@ -25,6 +25,7 @@ NAV_TABS = [
     ("📄", "Upload & Parse"),
     ("🎯", "ATS Analysis"),
     ("✨", "AI Enhance"),
+    ("✉️", "Cover Letter"),
     ("📥", "Export PDF"),
 ]
 

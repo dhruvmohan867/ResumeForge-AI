@@ -172,8 +172,19 @@ def render_experience_section() -> None:
     _save_resume(resume)
 
 
+def _add_suggested_skill(skill: str) -> None:
+    """Callback to add a suggested skill and update session state before rendering."""
+    resume = _get_resume()
+    if skill not in resume.skills:
+        resume.skills.append(skill)
+        _save_resume(resume)
+        st.session_state["inp_skills"] = skills_to_string(resume.skills)
+    if "suggested_skills" in st.session_state and skill in st.session_state["suggested_skills"]:
+        st.session_state["suggested_skills"].remove(skill)
+
+
 def render_skills_section() -> None:
-    """Render skills input section."""
+    """Render skills input section with AI suggestions."""
     render_section_header("🛠️", "Skills", "Your technical, domain, and soft skills")
 
     resume = _get_resume()
@@ -190,9 +201,68 @@ def render_skills_section() -> None:
     resume.skills = skills_to_list(skills_input)
     _save_resume(resume)
 
+    # 💡 AI Skill Suggester UI
+    if "suggested_skills" not in st.session_state:
+        st.session_state["suggested_skills"] = []
+
+    col_btn, col_info = st.columns([1.5, 2.5])
+    with col_btn:
+        if st.button("✨ Auto-Suggest Skills", key="btn_suggest_skills", use_container_width=True):
+            exp_context = ""
+            for idx, exp in enumerate(resume.experience):
+                if exp.job_title:
+                    exp_context += f"Job Title: {exp.job_title}\n"
+                if exp.company:
+                    exp_context += f"Company: {exp.company}\n"
+                if exp.description:
+                    exp_context += f"Description:\n{exp.description}\n"
+                exp_context += "---\n"
+
+            if not exp_context.strip():
+                st.warning("⚠️ Add work experience first to get relevant suggestions!")
+            else:
+                with st.spinner("🧠 Recommending skills..."):
+                    try:
+                        from app.services.ai_service import ai_service
+                        prompt = f"""You are an expert resume assistant. Analyze the candidate's work experiences and suggest 8 highly relevant technical or soft skills they should add to their resume.
+
+Candidate Experiences:
+{exp_context}
+
+Return ONLY valid JSON with this exact structure:
+{{
+    "skills": ["Skill 1", "Skill 2", "Skill 3", "Skill 4", "Skill 5", "Skill 6", "Skill 7", "Skill 8"]
+}}"""
+                        res = ai_service.generate_json(
+                            system_prompt="You are a professional resume writer and recruitment specialist.",
+                            user_prompt=prompt,
+                        )
+                        st.session_state["suggested_skills"] = res.get("skills", [])
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"❌ Skill suggestion failed: {str(e)}")
+
+    if st.session_state["suggested_skills"]:
+        st.markdown("<p style='font-size:0.825rem; font-weight:600; color:var(--text-secondary); margin: 0.5rem 0 0.25rem 0;'>💡 Suggested Skills (Click to add):</p>", unsafe_allow_html=True)
+        suggested = st.session_state["suggested_skills"]
+        
+        # Render chips inside small columns
+        cols = st.columns(4)
+        for idx, skill in enumerate(suggested):
+            col_idx = idx % 4
+            with cols[col_idx]:
+                st.button(
+                    f"➕ {skill}",
+                    key=f"add_suggested_skill_{idx}",
+                    use_container_width=True,
+                    type="secondary",
+                    on_click=_add_suggested_skill,
+                    args=(skill,),
+                )
+
     # Preview tags
     if resume.skills:
-        st.markdown("<div style='margin-top:1rem;'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='margin-top:1.5rem;'></div>", unsafe_allow_html=True)
         render_tag_list(resume.skills, color="var(--accent-color)", label="Skills Preview")
 
 

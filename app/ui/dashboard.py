@@ -48,20 +48,54 @@ from app.config import AVAILABLE_TEMPLATES
 # ===================================================================
 
 def render_builder_tab() -> None:
-    """Main resume builder form."""
+    """Main resume builder form with split screen live preview."""
     render_section_header("📝", "Resume Builder", "Build your professional profile block by block.")
 
-    render_personal_info_section()
-    st.markdown("<div style='height:2rem;'></div>", unsafe_allow_html=True)
-    render_education_section()
-    st.markdown("<div style='height:2rem;'></div>", unsafe_allow_html=True)
-    render_experience_section()
-    st.markdown("<div style='height:2rem;'></div>", unsafe_allow_html=True)
-    render_skills_section()
-    st.markdown("<div style='height:2rem;'></div>", unsafe_allow_html=True)
-    render_projects_section()
-    st.markdown("<div style='height:2rem;'></div>", unsafe_allow_html=True)
-    render_certifications_section()
+    # Create side-by-side columns: Form Editor (Left), Live Preview (Right)
+    col_editor, col_preview = st.columns([1, 1], gap="large")
+
+    with col_editor:
+        render_personal_info_section()
+        st.markdown("<div style='height:2rem;'></div>", unsafe_allow_html=True)
+        render_education_section()
+        st.markdown("<div style='height:2rem;'></div>", unsafe_allow_html=True)
+        render_experience_section()
+        st.markdown("<div style='height:2rem;'></div>", unsafe_allow_html=True)
+        render_skills_section()
+        st.markdown("<div style='height:2rem;'></div>", unsafe_allow_html=True)
+        render_projects_section()
+        st.markdown("<div style='height:2rem;'></div>", unsafe_allow_html=True)
+        render_certifications_section()
+
+    with col_preview:
+        st.markdown("<h3 style='margin:0 0 1rem 0; font-size:1.2rem; display:flex; align-items:center; gap:0.5rem; color:var(--accent-color);'>✨ Live Document Preview</h3>", unsafe_allow_html=True)
+        
+        from app.utils.helpers import get_session, set_session
+        from app.ui.components import render_live_resume_preview
+        
+        selected_template = get_session(SESSION_SELECTED_TEMPLATE, "tech_minimalist")
+        
+        template_names = {
+            "tech_minimalist": "Tech Minimalist Theme",
+            "corporate_executive": "Corporate Executive Theme",
+            "modern_developer": "Modern Developer Theme",
+        }
+        
+        chosen_key = st.selectbox(
+            "Select Preview Theme",
+            options=list(template_names.keys()),
+            format_func=lambda k: template_names[k],
+            index=list(template_names.keys()).index(selected_template),
+            key="builder_preview_theme_select",
+        )
+        
+        if chosen_key != selected_template:
+            set_session(SESSION_SELECTED_TEMPLATE, chosen_key)
+            st.rerun()
+            
+        resume = get_session(SESSION_RESUME_DATA)
+        if resume:
+            render_live_resume_preview(resume, chosen_key)
 
 
 # ===================================================================
@@ -345,7 +379,85 @@ def render_enhance_tab() -> None:
 
 
 # ===================================================================
-# TAB 5: Export PDF
+# TAB 5: Cover Letter
+# ===================================================================
+
+def render_cover_letter_tab() -> None:
+    """AI Cover Letter generator tab."""
+    render_section_header("✉️", "AI Cover Letter", "Generate a tailored, high-converting cover letter based on your experience.")
+
+    resume = get_session(SESSION_RESUME_DATA)
+    if not resume or not isinstance(resume, ResumeData) or resume.is_empty():
+        st.info("💡 **Tip:** Please build or upload your resume in the previous tabs first.")
+        return
+
+    # Job description input - populated from ATS if present
+    jd = st.text_area(
+        "Target Job Description",
+        value=get_session(SESSION_JOB_DESCRIPTION, ""),
+        key="cover_letter_jd",
+        height=180,
+        placeholder="Paste the target job description here...",
+    )
+    set_session(SESSION_JOB_DESCRIPTION, jd)
+
+    # Tone selector
+    tone = st.selectbox(
+        "Select Cover Letter Tone",
+        options=["Professional", "Enthusiastic", "Creative", "Bold"],
+        index=0,
+        key="cover_letter_tone",
+    )
+
+    if st.button("✨ Generate Custom Cover Letter", key="btn_gen_cover_letter", type="primary", use_container_width=True):
+        if not jd or len(jd.strip()) < 50:
+            st.warning("⚠️ Please paste a detailed job description (minimum 50 characters).")
+            return
+            
+        with st.spinner("🧠 Synthesizing experience and drafting letter..."):
+            try:
+                from app.services.cover_letter_service import generate_cover_letter
+                result = generate_cover_letter(resume, jd, tone)
+                set_session("cover_letter_text", result.get("cover_letter", ""))
+                set_session("cover_letter_notes", result.get("hiring_manager_notes", ""))
+                queue_toast("Cover Letter Drafted!", "✉️")
+                st.rerun()
+            except Exception as e:
+                st.error(f"❌ Cover letter generation failed: {str(e)}")
+
+    # Display results
+    cl_text = get_session("cover_letter_text")
+    if cl_text:
+        st.markdown("<hr style='margin:3rem 0;'>", unsafe_allow_html=True)
+        st.markdown("### 📄 Generated Cover Letter")
+        
+        # Display nicely in a text area or styled container
+        st.text_area("Draft (Editable)", value=cl_text, height=400, key="cover_letter_editor")
+        
+        # Hiring manager notes
+        cl_notes = get_session("cover_letter_notes")
+        if cl_notes:
+            st.markdown("#### 💡 AI Writing Strategy")
+            render_glass_card(f"<p style='font-size:0.9rem; color:var(--text-secondary); margin:0;'>{cl_notes}</p>")
+            
+        col1, col2 = st.columns(2)
+        with col1:
+            st.download_button(
+                label="📥 Download Cover Letter (.txt)",
+                data=cl_text,
+                file_name="cover_letter.txt",
+                mime="text/plain",
+                use_container_width=True,
+                type="primary",
+            )
+        with col2:
+            st.info("💡 **Pro Tip:** You can edit the text in the box above before copying or downloading it!")
+
+    st.markdown("<hr style='margin:3rem 0;'>", unsafe_allow_html=True)
+
+
+# ===================================================================
+# TAB 6: Export PDF
 # ===================================================================
 
 def render_export_tab() -> None:

@@ -34,6 +34,7 @@ from app.ui.dashboard import (
     render_upload_tab,
     render_ats_tab,
     render_enhance_tab,
+    render_cover_letter_tab,
     render_export_tab,
 )
 from app.database.db import init_db
@@ -75,6 +76,7 @@ def main() -> None:
         "Upload & Parse": render_upload_tab,
         "ATS Analysis": render_ats_tab,
         "AI Enhance": render_enhance_tab,
+        "Cover Letter": render_cover_letter_tab,
         "Export PDF": render_export_tab,
     }
 
