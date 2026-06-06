@@ -17,12 +17,21 @@ from openai import OpenAI
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(_PROJECT_ROOT / ".env")
 
+import streamlit as st
+
 OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+
+# Fallback to Streamlit secrets (for Streamlit Cloud deployment)
+if not OPENAI_API_KEY:
+    try:
+        OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", "")
+    except Exception:
+        pass
 
 if not OPENAI_API_KEY:
     raise EnvironmentError(
         "OPENAI_API_KEY is not set. "
-        "Create a .env file in the project root with your key."
+        "Create a .env file in the project root with your key or add it to Streamlit Secrets."
     )
 
 # ---------------------------------------------------------------------------
